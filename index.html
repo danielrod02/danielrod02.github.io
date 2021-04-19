@@ -62,6 +62,8 @@
         .then(repos => {
             console.log(repos);
             repos.items.forEach(repo => {
+                if (!repo.has_pages) return;
+
                 const listItem  = document.createElement('li');
                 const link = document.createElement('a');
 
