@@ -38,7 +38,45 @@
     <h1>Hi, my name is Oscar and I'm a web developer</h1>
     <h2>PROJECTS</h2>
     <ul>
-        <li><a href="/port-project1">PROJECT 1</a></li>
+        <!-- <li><a href="/port-project1">PROJECT 1</a></li> -->
     </ul>
+    <script>
+        'use strict';
+        const linkList = document.querySelector('h2 + ul');
+
+        // port in:name user:danielrod02
+        const q = 'port in:name user:danielrod02';
+        const url = new URL('https://api.github.com/search/repositories');
+        url.searchParams.append('q', q);
+        url.searchParams.append('sort', 'updated');
+        url.searchParams.append('order', 'desc');
+        console.log(url);
+
+        fetch(url, {
+            mode: 'cors',
+            headers: {
+                accept: 'application/vnd.github.v3+json',
+            }
+        })
+        .then(res => res.json())
+        .then(repos => {
+            console.log(repos);
+            repos.items.forEach(repo => {
+                const listItem  = document.createElement('li');
+                const link = document.createElement('a');
+
+                link.href = `/${repo.name}`;
+                link.innerText = (
+                    repo.name
+                    .replace('port-', '')
+                    .replace('-', ' ')
+                    .toUpperCase()
+                );
+
+                listItem.appendChild(link);
+                linkList.appendChild(listItem);
+            });
+        });
+    </script>
 </body>
 </html>
